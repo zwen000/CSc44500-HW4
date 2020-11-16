@@ -7,7 +7,8 @@ if __name__=='__main__':
     def parseCSV(idx, part):
         if idx == 0:
             next(part)
-        for p in csv.reader(part):
+		r = csv.reader(part)
+        for p in r:
             yield (p[1],p[0].split("-")[0], p[7])
 
     sc = SparkContext.getOrCreate()
