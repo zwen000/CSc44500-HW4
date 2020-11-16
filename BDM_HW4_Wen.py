@@ -7,9 +7,8 @@ if __name__=='__main__':
     def parseCSV(idx, part):
         if idx == 0:
             next(part)
-	with open(part, newline='', encoding='utf-8') as part:
-	    for p in csv.reader(part):
-	        yield (p[1],p[0].split("-")[0], p[7])
+        for p in csv.reader(part):
+            yield (p[1],p[0].split("-")[0], p[7])
 
     sc = SparkContext.getOrCreate()
     sqlContext = SparkSession.builder.getOrCreate()
@@ -30,12 +29,7 @@ if __name__=='__main__':
             .mapValues(lambda x: (sum(x), len(x),round((max(x)/sum( x)*100))))\
             .sortByKey()\
             .map(lambda x:(x[0]+x[1])).collect()
-    
-    with open(path_out, 'w', newline='') as csvfile:
-        spamwriter = csv.writer(csvfile, delimiter=',',quotechar='|', quoting=csv.QUOTE_MINIMAL)
-        for i in rows:
-            spamwriter.writerow(i)
-    
+    sc.parallelize(rows).saveAsTextFile(path_out)
 	
 	
 #     for i in rows.collect():
