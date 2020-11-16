@@ -2,8 +2,10 @@ from pyspark import SparkContext
 from pyspark.sql.session import SparkSession
 import sys
 import csv
-if __name__=='__main__':
-    
+
+
+
+def main(sc):
     def parseCSV(idx, part):
         if idx == 0:
             next(part)
@@ -11,8 +13,8 @@ if __name__=='__main__':
         for p in r:
             yield (p[1],p[0].split("-")[0], p[7])
 
-    sc = SparkContext.getOrCreate()
-    sqlContext = SparkSession.builder.getOrCreate()
+    
+    #sqlContext = SparkSession.builder.getOrCreate()
     path_in = "complaints_small.csv"
     path_out = "hw4_output"
     if len(sys.argv)>1:
@@ -38,6 +40,17 @@ if __name__=='__main__':
 #     df = sqlContext.createDataFrame(rows)
 #     df.write.csv(path_out, sep=",")
 
-print("done")
+	print("done")
 
+
+
+
+
+
+
+
+
+if __name__=='__main__':
+	sc = SparkContext.getOrCreate()
+	main(sc)
 #spark-submit --num-executors 2 --executor-cores 5 BDM_HW4_Wen.py /tmp/bdm/complaints.csv output_folder
