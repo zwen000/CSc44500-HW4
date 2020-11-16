@@ -28,6 +28,6 @@ def main(sc):
     sc.parallelize(rows).saveAsTextFile(path_out)
 
 if __name__=='__main__':
-	sc = SparkContext.getOrCreate()
-	main(sc)
+    sc = SparkContext.getOrCreate()
+    main(sc)
 #spark-submit --num-executors 2 --executor-cores 5 BDM_HW4_Wen.py /tmp/bdm/complaints.csv output_folder
